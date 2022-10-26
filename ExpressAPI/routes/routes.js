@@ -140,32 +140,13 @@ route.get("/username/:username", (req, res) => {
  */
 route.post("/add/user/:username", (req, res) => {
   const user = {
+    score: 0,
     username: req.params.username,
     id: uuidv4(),
   };
   userList.push(user);
   res.send(user);
 });
-
-route.post("/lobby/:username", (req, res) => {
-  const user = {
-    username: req.params.username,
-    status: "Game Host",
-    id: uuidv4()
-  };
-
-  userList.push(user);
-  res.send(user);
-});
-
-
-route.get("/lobby" , (req, res) =>{
-  const user = userList.find(
-    (user) => user.status === "Game Host"
-  )
-  res.send(user);
-
-})
 
 /**
  * @swagger

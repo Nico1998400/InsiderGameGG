@@ -1,89 +1,79 @@
-import axios from 'axios';
+import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate , useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Vote = () => {
-    const [users, setUsers] = useState([]);
-    const [username, setUserName] = useState("")
-    const [userguess, setUserGuess] = useState("")
-    const [status, setStatus] = useState([])
-    const [results, setResults] = useState('')
+  const [users, setUsers] = useState([]);
+  const [username, setUserName] = useState("");
+  const [userguess, setUserGuess] = useState("");
+  const [status, setStatus] = useState([]);
+  const [results, setResults] = useState("");
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    let message =''
-    let voteMessage = ''
-    let result = []
+  let message = "";
+  let voteMessage = "";
+  let result = [];
 
-    useEffect(() => {
-      axios
-      .get("http://localhost:5000/insider/allusers").then((res) => {
-        setUsers(res.data);
-        console.log(res.data);
-        gameStats()
-      });
-    }, []);
+  useEffect(() => {
+    axios.get("http://localhost:5000/insider/allusers").then((res) => {
+      setUsers(res.data);
+      console.log(res.data);
+      gameStats();
+    });
+  }, []);
 
-async function gameStats(){
-  console.log('STAUSCALL')
-  await axios.get("http://localhost:5000/insider/status").then((res) => {
-    setStatus(res.data);
-    console.log(res.data);
-  });
-}
+  async function gameStats() {
+    console.log("STAUSCALL");
+    await axios.get("http://localhost:5000/insider/status").then((res) => {
+      setStatus(res.data);
+      console.log(res.data);
+    });
+  }
 
-
-   async function startVote(e) {
-        e.preventDefault();
-       await axios.put(`http://localhost:5000/insider/vote/${username},${userguess}`).then(
-       window.location.reload(true));
-         
-      }
-
+  async function startVote(e) {
+    e.preventDefault();
+    await axios
+      .put(`http://localhost:5000/insider/vote/${username},${userguess}`)
+      .then(window.location.reload(true));
+  }
 
   let gameRunning = false;
 
-
   for (let x of users) {
-    if (x.title === 'Game host') {
-      gameRunning = true
+    if (x.title === "Game host") {
+      gameRunning = true;
     }
   }
-  
+
   if (gameRunning) {
-    message = 'Game is running'
-    console.log("Spelet är igång")
+    message = "Game is running";
+    console.log("Spelet är igång");
   } else {
-    message = 'Spelet är inte igång'
-    console.log("Spelet är inte igång")
+    message = "Spelet är inte igång";
+    console.log("Spelet är inte igång");
   }
 
-  const votes = users.map(x => x.hasVoted === true ? 1 : 0)
-  .reduce((prev, curr) => prev + curr, 0)
+  const votes = users
+    .map((x) => (x.hasVoted === true ? 1 : 0))
+    .reduce((prev, curr) => prev + curr, 0);
 
+  let objInsider = users.filter((x) => x.title === "Insider");
 
-  let objInsider = users.filter(x => x.title === 'Insider')
+  if (votes === users.length) {
+    console.log(" Alla har röstat");
 
-  if (votes === users.length ) {
-    console.log(" Alla har röstat")
-
-    if (objInsider.voteCount > (users.length / 2)) {
-      result = 'Majority has voted right'
-      console.log("Majoriteten har röstat rätt")
-
-
-
+    if (objInsider.voteCount > users.length / 2) {
+      result = "Majority has voted right";
+      console.log("Majoriteten har röstat rätt");
     } else {
-      console.log("Majoriteten har röstat fel")
-      result = 'Majority has voted wrong'
+      console.log("Majoriteten har röstat fel");
+      result = "Majority has voted wrong";
     }
-
   } else {
-    console.log(votes + " av " + users.length + " har röstat")
-    voteMessage = (votes + " of " + (users.length) + " has voted")
+    console.log(votes + " av " + users.length + " har röstat");
+    voteMessage = votes + " of " + users.length + " has voted";
   }
-
-
 
   return (
     <div>
@@ -109,8 +99,6 @@ async function gameStats(){
             className="bg-green-400 outline-none font-bold border text-white border-zinc-400 py-4 pl-4 mt-4"
             type="submit"
             onClick={startVote}
-          
-        
           >
             SUBMIT
           </button>
@@ -207,7 +195,6 @@ async function gameStats(){
       </div>
     </div>
   );
+};
 
-}
-
-export default Vote
+export default Vote;

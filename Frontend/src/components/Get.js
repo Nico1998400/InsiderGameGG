@@ -21,7 +21,7 @@ function Get() {
     e.preventDefault();
     axios
       .put(`http://localhost:5000/insider/start/`)
-      .then(navigate("/vote"));
+      .then(navigate("/Vote"));
   }
 
   useEffect(() => {
