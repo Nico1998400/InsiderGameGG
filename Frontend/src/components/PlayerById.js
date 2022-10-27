@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-function GetById() {
+function PlayerById() {
   const [users, setUsers] = useState([]);
 
   const { username } = useParams();
-
 
   useEffect(() => {
     axios
@@ -15,14 +15,14 @@ function GetById() {
         setUsers(res.data);
         console.log(res.data);
       });
-  },[]);
-  
+  }, [username]);
+
 
   const name = users.username;
   const title = users.title;
   const id = users.id;
   const score = users.score;
-  const host = users.host
+  const host = users.host;
 
   return (
     <>
@@ -68,39 +68,40 @@ function GetById() {
                     </tr>
                   </thead>
                   <tbody className="border-black border-b-2">
-                   
-                      <tr
-                     
-                        className="bg-white border-b-2 border-black"
-                      >
-                  
-                        <td className="text-xl text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-                          {id}
-                        </td>
-                        <td className="text-xl text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-                          {name}
-                        </td>
-                        <td className="text-xl text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-                          {title}
-                        </td>
-                        <td className="text-xl text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-                          {score}
-                        </td>
-                        <td className="text-xl text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-                          {host}
-                        </td>
+                    <tr className="bg-white border-b-2 border-black">
+                      <td className="text-xl text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
+                        {id}
+                      </td>
+                      <td className="text-xl text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
+                        {name}
+                      </td>
+                      <td className="text-xl text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
+                        {title}
+                      </td>
+                      <td className="text-xl text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
+                        {score}
+                      </td>
+                      <td className="text-xl text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
+                        {host}
+                      </td>
 
-                        <td className="text-sm flex justify-between  items-center text-gray-900 font-bold px-6 py-4 space-x-4 whitespace-nowrap"></td>
-                      </tr>
+                      <td className="text-sm flex justify-between  items-center text-gray-900 font-bold px-6 py-4 space-x-4 whitespace-nowrap"></td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
             </div>
           </div>
         </div>
+        <Link
+          to={`/Vote/${username}`}
+          className="bg-green-600 text-white px-6 py-2 rounded-lg"
+        >
+          Vote
+        </Link>
       </div>
     </>
   );
 }
 
-export default GetById;
+export default PlayerById;

@@ -1,18 +1,12 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 
-
-
-function Add() {
+function Join() {
   const [username, setUserName] = useState("");
 
-  const navigate = useNavigate();
-
-  function submitForm(e) {
-    e.preventDefault();
-    axios.post(`http://localhost:5000/insider/add/user/${username}`).then(navigate("/Lobby"));
+  function submitForm() {
+    axios.post(`http://localhost:5000/insider/add/user/${username}`)
   }
   return (
     <div className="w-screen h-full flex flex-col justify-center items-center mt-16">
@@ -26,16 +20,17 @@ function Add() {
           placeholder="Enter your name"
         />
 
-        <button
-          className="bg-teal-600 outline-none font-bold border text-white border-zinc-400 py-4 pl-4 mt-4"
-          type="submit"
-          onClick={submitForm}
-        >
-          JOIN GAME
-        </button>
+          <Link
+            to={`/Lobby/${username}`}
+            onClick={submitForm}
+            className="bg-green-400 outline-none font-bold border text-white border-zinc-400 py-4 pl-4 mt-4"
+            type="submit"
+          >
+            JOIN GAME
+          </Link>
       </form>
     </div>
   );
 }
 
-export default Add;
+export default Join;

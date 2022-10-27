@@ -1,7 +1,6 @@
 import axios from "axios";
-import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { useNavigate , useParams} from "react-router-dom";
+
 
 const Status = () => {
 
@@ -9,8 +8,6 @@ const [users, setUsers] = useState([]);
 
 
 let message =''
-let voteMessage = ''
-let result = ''
 
 
 
@@ -21,10 +18,6 @@ let result = ''
       console.log(res.data);
     });
   }, []);
-
-
-
-
 
 let scoreboard = users.map(x => x.username + " " + x.score)
 console.log(scoreboard)

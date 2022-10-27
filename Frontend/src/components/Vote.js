@@ -1,15 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+
 
 const Vote = () => {
   const [users, setUsers] = useState([]);
   const [username, setUserName] = useState("");
   const [userguess, setUserGuess] = useState("");
   const [status, setStatus] = useState([]);
-  const [results, setResults] = useState("");
-
-  const navigate = useNavigate();
 
   let message = "";
   let voteMessage = "";
@@ -37,6 +34,7 @@ const Vote = () => {
       .put(`http://localhost:5000/insider/vote/${username},${userguess}`)
       .then(window.location.reload(true));
   }
+
 
   let gameRunning = false;
 
@@ -74,6 +72,9 @@ const Vote = () => {
     console.log(votes + " av " + users.length + " har röstat");
     voteMessage = votes + " of " + users.length + " has voted";
   }
+
+
+
 
   return (
     <div>
@@ -183,7 +184,6 @@ const Vote = () => {
                       <td className="text-xl text-black font-semibold px-6 py-4 whitespace-nowrap">
                         {status}
                       </td>
-
                       <td className="text-sm flex justify-between  items-center text-gray-900 font-bold px-6 py-4 space-x-4 whitespace-nowrap"></td>
                     </tr>
                   </tbody>

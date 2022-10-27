@@ -339,10 +339,8 @@ route.put("/vote/:userAndGuess", (req, res) => {
  *            description: Succes
  */
 route.get('/status/', (req, res) => {
-
   // ge status ifall spelet är igång, genom att kolla ifall någon är Game Host
   let gameRunning = false;
-
   for (let x of userList) {
     if (x.title === "Game host") {
       gameRunning = true
