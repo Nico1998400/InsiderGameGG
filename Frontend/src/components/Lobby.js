@@ -1,12 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 
 function Lobby() {
   const [users, setUsers] = useState([]);
-
-  const navigate = useNavigate();
 
   function loadUsers() {
     axios.get("http://localhost:5000/insider/allusers").then((res) => {
@@ -16,7 +13,7 @@ function Lobby() {
   }
 
   function startGame() {
-    axios.put(`http://localhost:5000/insider/start/`).then(navigate("/Vote"));
+    axios.put(`http://localhost:5000/insider/start/`);
   }
 
   useEffect(() => {
@@ -26,9 +23,9 @@ function Lobby() {
     return () => clearInterval(interval);
   }, []);
 
-  function deleteUser(username) {
+  function deleteUser(id) {
     axios
-      .delete(`http://localhost:5000/insider/delete/username/${username}`)
+      .delete(`http://localhost:5000/insider/delete/id/${id}`)
       .then(loadUsers());
   }
 
@@ -36,6 +33,7 @@ function Lobby() {
     users.map(function (data) {
       if (data.host === "Host") {
         startGame()
+        
       } else {
         console.log("Not working");
       }
@@ -92,7 +90,7 @@ function Lobby() {
                             View
                           </Link>
                           <Link
-                            onClick={() => deleteUser(data.username)}
+                            onClick={() => deleteUser(data.id)}
                             to={"#"}
                             className="bg-red-600 text-white px-6 py-2 rounded-lg"
                           >

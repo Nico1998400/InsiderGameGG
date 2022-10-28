@@ -1,16 +1,35 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 
 const Vote = () => {
+  let { username } = useParams();
   const [users, setUsers] = useState([]);
-  const [username, setUserName] = useState("");
+  // const [usernameChange, setUsernameChange] = useState("");
   const [userguess, setUserGuess] = useState("");
   const [status, setStatus] = useState([]);
 
   let message = "";
   let voteMessage = "";
   let result = [];
+
+  function loadLobby() {
+    axios
+   .get("http://localhost:5000/insider/allusers").then((res) => {
+     setUsers(res.data);
+     console.log(res.data);
+     console.log("FROM VOTE")
+
+   });
+ };
+
+ useEffect(() => {
+  const interval = setInterval(() => {
+    loadLobby();
+  }, 1000);
+  return () => clearInterval(interval);
+}, []);
 
   useEffect(() => {
     axios.get("http://localhost:5000/insider/allusers").then((res) => {
@@ -32,7 +51,7 @@ const Vote = () => {
     e.preventDefault();
     await axios
       .put(`http://localhost:5000/insider/vote/${username},${userguess}`)
-      .then(window.location.reload(true));
+      gameStats();
   }
 
 
@@ -83,10 +102,11 @@ const Vote = () => {
         <form className="w-[50%] h-full flex flex-col mt-2">
           <input
             value={username}
-            onChange={(e) => setUserName(e.target.value)}
+            //onChange={(e) => setUsernameChange(e.target.value)}
             className="bg-white/10 outline-none font-normal border border-zinc-400 py-6 pl-6 mt-4"
             type="text"
-            placeholder="Enter your username"
+            //placeholder="Enter your username"
+            disabled = {"disabled"}
           />
           <input
             value={userguess}

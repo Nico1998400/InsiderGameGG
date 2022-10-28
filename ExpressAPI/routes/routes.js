@@ -10,7 +10,7 @@ route.use(cors());
 let userList = [
   {
     title: "",
-    host: "",
+    host: "Host",
     username: "one",
     score: 0,
     secretWord: "Unknown",
@@ -59,14 +59,41 @@ let userList = [
     hasVoted: false
   }
 ];
-/*  {
-      title: "",
-    username: "boba",
+
+let hostedLobby = [
+
+
+];
+
+
+
+route.get("/lobbylist", (req, res) => {
+  res.send(hostedLobby);
+});
+
+route.post("/add/lobby/:username", (req, res) => {
+  const user = {
+    username: req.params.username,
+    title:'',
+    id: uuidv4(),
+    host:'',
     score: 0,
-    secretWord: "Unknown",
-    id: "10c5848c-6dc2-4683-bd14-af2aaedb60a1",
-    } 
-*/
+    voteCount:0,
+    hasVoted: false
+
+    
+  };
+  hostedLobby.push(user);
+  res.send(user);
+});
+
+
+route.delete("/delete/lobbyuser/:username", (req, res) => {
+  hostedLobby = hostedLobby.filter(
+    (user) => user.username !== req.params.username
+  );
+  res.status(200).send();
+});
 
 /**
  * @swagger
@@ -260,9 +287,9 @@ route.put("/start/", (req, res) => {
  *          200:
  *            description: Succes
  */
-route.delete("/delete/username/:username", (req, res) => {
+route.delete("/delete/id/:id", (req, res) => {
   userList = userList.filter(
-    (user) => user.username !== req.params.username
+    (user) => user.id !== req.params.id
   );
   res.status(200).send();
 });

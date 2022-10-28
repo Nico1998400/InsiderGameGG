@@ -18,8 +18,6 @@ function Navbar() {
             hover:border-2 hover:border-white hover:text-yellow-400 hover:shadow-md rounded-lg font-bold text-white py-2 px-2">Lobby</Link>
             <Link to={"/Vote"} className="hover:bg-black
             hover:border-2 hover:border-white hover:text-teal-200 hover:shadow-md rounded-lg font-bold text-white py-2 px-2">Vote</Link>
-            <Link to={"/Status"} className="hover:bg-black
-            hover:border-2 hover:border-white hover:text-teal-200 hover:shadow-md rounded-lg font-bold text-white py-2 px-2">Status</Link>
           </div>
         </div>
     </>

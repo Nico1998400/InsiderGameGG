@@ -5,8 +5,19 @@ import { useState } from "react";
 function Host() {
   const [username, setUserName] = useState("");
 
+  
+
   function hostGame() {
     axios.put(`http://localhost:5000/insider/host/${username}`);
+  }
+
+  function submitForm() {
+    axios.post(`http://localhost:5000/insider/add/user/${username}`)
+  }
+
+  function hostNjoin(username) {
+    submitForm(username);
+    hostGame(username);
   }
 
   return (
@@ -23,7 +34,7 @@ function Host() {
           />
           <Link
             to={`/Lobby/${username}`}
-            onClick={hostGame}
+            onClick={hostNjoin}
             className="bg-green-400 outline-none font-bold border text-white border-zinc-400 py-4 pl-4 mt-4"
             type="submit"
           >
